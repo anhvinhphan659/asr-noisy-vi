@@ -1,6 +1,6 @@
 # Contract: core audio-processing logic
 
-This document defines the functions in `src/asr_noisy`. It is the source of truth: to change a function's behavior, update this contract first, then the code and tests.
+This document defines the functions in `core/`. It is the source of truth: to change a function's behavior, update this contract first, then the code and tests.
 
 ## 1. Scope
 
@@ -11,6 +11,8 @@ The core does exactly **three audio operations**:
 | Convert | Bring audio to 16 kHz mono float32 | `convert`, `load_audio` |
 | Merge | Add noise to speech at a target SNR; sum several voices into babble | `mix`, `make_babble` |
 | Extract info | Describe an audio file; measure SNR | `extract_info`, `measure_snr` |
+
+Modules: `core/convert.py`, `core/merge.py`, `core/info.py`. All public names are exported from `core`.
 
 **Out of scope** (handled in notebooks):
 
@@ -32,7 +34,7 @@ The core does exactly **three audio operations**:
 | Loudness | No absolute loudness normalization; original levels are kept |
 | Time | Always in seconds (`_s` suffix) for parameters and fields |
 
-### Constants (`constants.py`)
+### Constants (`core/constants.py`)
 
 | Name | Value | Meaning |
 |---|---|---|

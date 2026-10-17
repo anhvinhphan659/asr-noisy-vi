@@ -4,7 +4,7 @@
 
 Vietnamese ASR under noise. Measures how much a zero-shot ASR model (Qwen3-ASR-0.6B) degrades when noise (traffic, babble) is added at SNR levels of 20/10/5/0 dB, and whether LoRA fine-tuning with online noise mixing helps. Data: FLEURS `vi_vn` (speech), FSD50K (traffic), MUSAN (babble).
 
-The repo contains a small core library (`src/asr_noisy`) for audio processing; experiment notebooks call into it.
+The repo contains a small core library (`core/`) for audio processing; experiment notebooks call into it.
 
 ## Working rules
 
@@ -41,7 +41,18 @@ The repo contains a small core library (`src/asr_noisy`) for audio processing; e
 - Functions never modify their inputs; they accept an `np.ndarray` or a list of numbers.
 - One signal or one pair per call, no batching.
 - Time is in seconds (`_s` suffix).
-- Constants (`SAMPLE_RATE`, `MAX_PEAK`, `CLIP_THRESHOLD`) live in `src/asr_noisy/constants.py`.
+- Constants (`SAMPLE_RATE`, `MAX_PEAK`, `CLIP_THRESHOLD`) live in `core/constants.py`.
+- Use only basic NumPy APIs so the core runs on any `numpy>=2.0,<3` (Colab and Kaggle ship their own NumPy; notebooks should not reinstall it).
+
+## Layout
+
+| Operation | Module | Tests |
+|---|---|---|
+| Convert | `core/convert.py` | `tests/test_convert.py` |
+| Merge | `core/merge.py` | `tests/test_merge.py` |
+| Extract info | `core/info.py` | `tests/test_info.py` |
+
+Every public function is exported from `core` (`from core import mix`). Each module has a matching test file.
 
 ## Commands
 
