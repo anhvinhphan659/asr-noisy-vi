@@ -54,9 +54,44 @@ The repo contains a small core library (`core/`) for audio processing; experimen
 
 Every public function is exported from `core` (`from core import mix`). Each module has a matching test file.
 
+## Setup and import
+
+The core is the `core/` package at the repo root and is imported as `core`.
+
+**Local, from the repo root** (Python finds `core/` in the current directory):
+
+```bash
+git clone https://github.com/anhvinhphan659/asr-noisy-vi
+cd asr-noisy-vi
+pip install soundfile soxr   # core dependencies; NumPy is usually preinstalled
+```
+
+```python
+from core import load_audio, mix, extract_info
+```
+
+**From any directory**: install once in editable mode. This also installs `soundfile` and `soxr`, and code edits apply without reinstalling.
+
+```bash
+pip install -e .
+```
+
+**Colab / Kaggle:**
+
+```python
+!git clone https://github.com/anhvinhphan659/asr-noisy-vi
+%cd asr-noisy-vi
+!pip install -q soundfile soxr
+from core import load_audio, mix, extract_info
+```
+
+Do not reinstall NumPy on Colab or Kaggle; use the preinstalled version (`numpy>=2.0,<3` is supported).
+
+**Notebooks** are run and managed outside the repo. A `notebooks/` folder, if present, is only a snapshot: the core never imports from it, and it does not need to run in place.
+
 ## Commands
 
 ```bash
-pip install -e ".[dev]"
+pip install -e ".[dev]"   # with test dependencies
 python3 -m pytest
 ```
