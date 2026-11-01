@@ -374,7 +374,8 @@ All paths in the manifests are relative to `asr-data/`.
 `LICENSES.md`), shared with the team. To change a parameter, rerun the notebook and save a
 new version of the same dataset; everyone must use the same version.
 
-**Using it.** A model notebook attaches the dataset and never builds data:
+**Using it.** A model notebook attaches the dataset and never builds data (user guide with
+the dataset content and loading examples: `dataset.md`):
 
 ```python
 from dataprep import describe, find_data_root, require_data

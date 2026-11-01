@@ -47,7 +47,7 @@ The repo has three packages; experiment notebooks call into them:
 
 **Reproducibility**: every random choice takes a `seed` and is saved as a table row (test plan, dev plan, training schedule), from which the audio is rebuilt exactly. All models share the same tables.
 
-**Shared dataset**: notebook `01_prepare_dataset` builds everything once into `asr-data/` (relative paths, `DATASET.json` written last), saved as the private Kaggle Dataset `asr-noisy-vi`. Model notebooks call `find_data_root()` and `require_data()` and never build data; if it is missing they stop with an error.
+**Shared dataset**: notebook `01_prepare_dataset` builds everything once into `asr-data/` (relative paths, `DATASET.json` written last), saved as the private Kaggle Dataset `asr-noisy-vi`. Model notebooks call `find_data_root()` and `require_data()` and never build data; if it is missing they stop with an error. `docs/dataset.md` describes its content and how to load it for training, dev, test and inference; keep it in sync with `dataprep` and `evaluation`.
 
 ## Code conventions
 
