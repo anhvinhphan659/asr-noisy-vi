@@ -1,5 +1,22 @@
 """Data preparation for Vietnamese ASR under noise. See docs/dataprep.md."""
 
+from .noise import (
+    FSD50K_EXCLUDE_LABELS,
+    FSD50K_HF_LAYOUT,
+    FSD50K_TRAFFIC_LABELS,
+    FSD50K_ZENODO_LAYOUT,
+    MAX_SILENT_FRACTION,
+    band_limit,
+    download_fsd50k_traffic,
+    download_musan_speech,
+    materialize_pool,
+    random_offset_s,
+    read_segment,
+    select_fsd50k,
+    select_musan_speech,
+    silent_fraction,
+    take_segment,
+)
 from .progress import Progress, ProgressFile, get_progress_interval, set_progress_interval
 from .speech import (
     choose_dev_speakers,
@@ -16,22 +33,37 @@ from .speech import (
 from .text import has_digit, normalize_text, verbalize_number, verbalize_numbers
 
 __all__ = [
+    "FSD50K_EXCLUDE_LABELS",
+    "FSD50K_HF_LAYOUT",
+    "FSD50K_TRAFFIC_LABELS",
+    "FSD50K_ZENODO_LAYOUT",
+    "MAX_SILENT_FRACTION",
     "Progress",
     "ProgressFile",
+    "band_limit",
     "choose_dev_speakers",
+    "download_fsd50k_traffic",
+    "download_musan_speech",
     "get_progress_interval",
     "has_digit",
+    "materialize_pool",
     "normalize_text",
     "prepare_fleurs",
     "prepare_vietmed",
     "prepare_vivos",
     "process_utterance",
+    "random_offset_s",
+    "read_segment",
     "read_vivos_split",
     "save_manifests",
+    "select_fsd50k",
+    "select_musan_speech",
     "set_progress_interval",
+    "silent_fraction",
     "speaker_overlap",
     "subsample",
     "summarize_manifest",
+    "take_segment",
     "verbalize_number",
     "verbalize_numbers",
 ]
