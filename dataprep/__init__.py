@@ -1,5 +1,6 @@
 """Data preparation for Vietnamese ASR under noise. See docs/dataprep.md."""
 
+from .loaders import TrainSet, collate_raw, iter_eval_batches, load_eval_set, load_train_set
 from .noise import (
     FSD50K_EXCLUDE_LABELS,
     FSD50K_HF_LAYOUT,
@@ -16,6 +17,17 @@ from .noise import (
     select_musan_speech,
     silent_fraction,
     take_segment,
+)
+from .pipeline import (
+    DATASET_FILE,
+    DATASET_NAME,
+    code_version,
+    describe,
+    find_data_root,
+    missing_audio,
+    require_data,
+    write_dataset_info,
+    write_licenses,
 )
 from .progress import Progress, ProgressFile, get_progress_interval, set_progress_interval
 from .plan import (
@@ -41,6 +53,8 @@ from .speech import (
 from .text import has_digit, normalize_text, verbalize_number, verbalize_numbers
 
 __all__ = [
+    "DATASET_FILE",
+    "DATASET_NAME",
     "FSD50K_EXCLUDE_LABELS",
     "FSD50K_HF_LAYOUT",
     "FSD50K_TRAFFIC_LABELS",
@@ -49,17 +63,26 @@ __all__ = [
     "NoiseBank",
     "Progress",
     "ProgressFile",
+    "TrainSet",
     "band_limit",
     "build_dev_plan",
     "build_test_plan",
     "build_train_schedule",
     "choose_dev_speakers",
+    "code_version",
+    "collate_raw",
     "condition_name",
+    "describe",
     "download_fsd50k_traffic",
     "download_musan_speech",
+    "find_data_root",
     "get_progress_interval",
     "has_digit",
+    "iter_eval_batches",
+    "load_eval_set",
+    "load_train_set",
     "materialize_pool",
+    "missing_audio",
     "noise_segment",
     "normalize_text",
     "parse_voices",
@@ -71,6 +94,7 @@ __all__ = [
     "read_segment",
     "read_vivos_split",
     "render",
+    "require_data",
     "sample_spec",
     "save_manifests",
     "select_fsd50k",
@@ -83,5 +107,7 @@ __all__ = [
     "take_segment",
     "verbalize_number",
     "verbalize_numbers",
+    "write_dataset_info",
+    "write_licenses",
     "write_noisy_set",
 ]
