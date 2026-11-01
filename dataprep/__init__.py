@@ -18,6 +18,14 @@ from .noise import (
     take_segment,
 )
 from .progress import Progress, ProgressFile, get_progress_interval, set_progress_interval
+from .plan import (
+    build_dev_plan,
+    build_test_plan,
+    build_train_schedule,
+    condition_name,
+    sample_spec,
+)
+from .render import NoiseBank, noise_segment, parse_voices, render, write_noisy_set
 from .speech import (
     choose_dev_speakers,
     prepare_fleurs,
@@ -38,16 +46,23 @@ __all__ = [
     "FSD50K_TRAFFIC_LABELS",
     "FSD50K_ZENODO_LAYOUT",
     "MAX_SILENT_FRACTION",
+    "NoiseBank",
     "Progress",
     "ProgressFile",
     "band_limit",
+    "build_dev_plan",
+    "build_test_plan",
+    "build_train_schedule",
     "choose_dev_speakers",
+    "condition_name",
     "download_fsd50k_traffic",
     "download_musan_speech",
     "get_progress_interval",
     "has_digit",
     "materialize_pool",
+    "noise_segment",
     "normalize_text",
+    "parse_voices",
     "prepare_fleurs",
     "prepare_vietmed",
     "prepare_vivos",
@@ -55,6 +70,8 @@ __all__ = [
     "random_offset_s",
     "read_segment",
     "read_vivos_split",
+    "render",
+    "sample_spec",
     "save_manifests",
     "select_fsd50k",
     "select_musan_speech",
@@ -66,4 +83,5 @@ __all__ = [
     "take_segment",
     "verbalize_number",
     "verbalize_numbers",
+    "write_noisy_set",
 ]
