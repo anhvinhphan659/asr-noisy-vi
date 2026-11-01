@@ -14,7 +14,7 @@ The core does exactly **three audio operations**:
 
 Modules: `core/convert.py`, `core/merge.py`, `core/info.py`. All public names are exported from `core`.
 
-**Out of scope** (handled in notebooks):
+**Out of scope** (handled in `dataprep`, `evaluation` or notebooks; see `dataprep.md` and `evaluation.md`):
 
 - Running models: transcription, fine-tuning.
 - Segment selection: which part to cut, looping short noise, choosing an offset.
