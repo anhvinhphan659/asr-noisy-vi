@@ -10,7 +10,7 @@ The repo has three packages; experiment notebooks call into them:
 |---|---|---|
 | `core/` | Audio operations: convert, mix, measure | `docs/contract.md` |
 | `dataprep/` | Datasets, noise pools, mixing plans, noisy sets, training schedule | `docs/dataprep.md` |
-| `evaluation/` | WER / CER from model outputs, summary tables, bootstrap | `docs/evaluation.md` |
+| `evaluation/` | WER / CER from model outputs, summary tables, bootstrap, failed utterances | `docs/evaluation.md` |
 
 ## Working rules
 
@@ -76,6 +76,7 @@ The repo has three packages; experiment notebooks call into them:
 | `evaluation/metrics.py` | Edit counts, error rate | `tests/test_evaluation_metrics.py` |
 | `evaluation/predictions.py` | Prediction writer with resume | `tests/test_evaluation_predictions.py` |
 | `evaluation/scoring.py`, `evaluation/bootstrap.py` | Scoring, tables, bootstrap | `tests/test_evaluation_scoring.py` |
+| `evaluation/failures.py` | Failed utterances (looping, truncated, wrong language) | `tests/test_evaluation_failures.py` |
 
 `scripts/package_code.py` bundles the code for Kaggle (`tests/test_scripts_package_code.py`).
 

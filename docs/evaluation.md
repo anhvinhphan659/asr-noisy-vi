@@ -28,6 +28,7 @@ models do not need to run again.
 | `predictions.py` | Write model outputs in the prediction format, resuming interrupted runs |
 | `scoring.py` | Load predictions, join them with the plan and references, count errors, aggregate |
 | `bootstrap.py` | Confidence intervals for one system, paired comparison of two systems |
+| `failures.py` | Utterances that fail as a whole (looping, truncated, wrong language) and their share of the WER |
 
 ## 2. Prediction files
 
@@ -113,8 +114,8 @@ counts `w_sub`, `w_del`, `w_ins`, `w_n_ref` (words) and `c_*` (characters).
 
 `summarize(scored, by=...)` gives per group: `utterances`, `words`, `wer`, `cer`, and
 `sub_pct`, `del_pct`, `ins_pct` (WER split into its three error kinds). The split helps the
-analysis: babble at low SNR typically raises insertions (the model transcribes the
-background voices), traffic raises deletions.
+analysis: traffic mainly raises substitutions, babble at low SNR raises insertions and
+deletions as well (see section 6 for the utterances behind them).
 
 `wer_table` is the main report table: one row per dataset × noise type × SNR, one column per
 model / variant.
@@ -163,7 +164,56 @@ compare(scored, ("qwen3-asr-0.6b", "ft-clean"), ("qwen3-asr-0.6b", "ft-noisy"))
 If the interval contains 0, the report should not claim that one system is better under that
 condition.
 
-## 6. Comparisons for the report
+## 6. Failed utterances
+
+Under heavy babble, some outputs fail as a whole rather than word by word. In the zero-shot
+run (`docs/results/zero-shot.md`), 4% of the FLEURS utterances of Qwen3-ASR at babble 0 dB
+account for most of its gap to PhoWhisper. A corpus WER alone cannot tell whether
+fine-tuning fixes such utterances or improves recognition in general, so they are counted
+separately.
+
+`flag_failures(scored)` returns a copy of `scored` with one boolean column per kind, judged
+against the reference (`w_n_ref`, `ref`) and the normalized output (`hyp_norm`):
+
+| Column | Rule | Example |
+|---|---|---|
+| `looping` | Output longer than 2 × the reference, with a phrase of 1–20 words repeated 3 times in a row | "chúng ta sẽ đi đến một nơi mà chúng ta sẽ đi đến một nơi mà…" |
+| `truncated` | Output shorter than 0.5 × the reference | Reference of 14 words → "điều kiện bảo vệ" |
+| `off_language` | Reference has Vietnamese letters (ă, â, đ, ê, ô, ơ, ư or a tone mark); the normalized output has at least 3 words and none (digits count as Vietnamese, since normalization writes them as words) | "And gradually, the day turned into night." (the English babble, transcribed) |
+| `failed` | Any of the three | |
+
+The thresholds are module constants (`LOOP_LENGTH_RATIO`, `LOOP_MAX_PHRASE`,
+`LOOP_MIN_REPEATS`, `TRUNCATED_RATIO`, `OFF_LANGUAGE_MIN_WORDS`). `has_repeated_phrase(words)`
+is the loop test on its own. `off_language` misses Vietnamese written without diacritics and
+Vietnamese babble transcribed as Vietnamese.
+
+`failure_summary(scored, by=...)` gives per group (by default model × variant × dataset ×
+noise type × SNR):
+
+| Column | Meaning |
+|---|---|
+| `looping`, `truncated`, `off_language`, `failed` | Number of utterances of each kind |
+| `<kind>_pct` | The same, in percent of the group's utterances |
+| `wer` | Corpus WER, as in `summarize` |
+| `failed_wer_pts` | WER points from failed utterances: their errors over **all** reference words of the group; `wer − failed_wer_pts` is what the other utterances contribute |
+| `wer_without_failed` | Corpus WER of the utterances that did not fail |
+
+```python
+from evaluation import compare, failure_summary, flag_failures
+
+failure_summary(scored[scored["noise_type"] == "babble"])
+
+# Paired comparison on the utterances where no system failed (same rows on both sides)
+flags = flag_failures(scored)
+any_failed = flags.groupby(["utt_id", "condition"])["failed"].transform("any")
+compare(flags[~any_failed], ("qwen3-asr-0.6b", "zero-shot"), ("qwen3-asr-0.6b", "ft-noisy"))
+```
+
+To compare fine-tuned and zero-shot systems, report both: `failed_pct` says whether
+fine-tuning removes whole-utterance failures, `wer_without_failed` whether it improves
+recognition on the rest.
+
+## 7. Comparisons for the report
 
 | Question | `system_a` | `system_b` |
 |---|---|---|
@@ -175,7 +225,7 @@ condition.
 For a fair comparison, all systems must share the test plan, the training schedule, the
 training budget and the checkpoint selection rule (see `dataprep.md`).
 
-## 7. For the report
+## 8. For the report
 
 - WER and CER are corpus-level, in percent, after `normalize_text` on both sides.
 - Numbers are written as words on both sides; codes glued to letters (`covid19`) are kept.
