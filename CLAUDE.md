@@ -16,6 +16,7 @@ The repo has three packages; experiment notebooks call into them:
 
 - **Do nothing that was not asked for.** Do not edit code, create files, commit or push unless the user explicitly asks. While the user is discussing, only answer and propose.
 - **Everything in the repo is written in English**: code, comments, docstrings, docs, commit messages. Chat with the user can be in Vietnamese.
+  Exception: experiment results and their analysis in `docs/results/` are written in Vietnamese, so the whole team can read them.
 - `docs/contract.md` is the source of truth for the core. To change a function's behavior: agree with the user → update the contract → update code and tests.
 - `docs/dataprep.md` and `docs/evaluation.md` describe the other two packages; keep them in sync with the code.
 - Keep the core small: add a function only if it is an audio operation. Shared experiment logic goes in `dataprep` or `evaluation`; model-specific code stays in notebooks.
