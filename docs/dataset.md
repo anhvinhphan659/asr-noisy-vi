@@ -137,7 +137,7 @@ Row counts are those of v1; `DATASET.json` holds the counts of the attached vers
 | `duration_s`, `peak`, `has_clipping` | Measured on the 16 kHz audio |
 | `orig_sr` | Original sample rate (8000 for VietMed) |
 | `speaker`, `gender` | Empty speaker for FLEURS |
-| `has_digit` | The original transcript had digits (see `evaluation.md` §7) |
+| `has_digit` | The original transcript had digits (see `evaluation.md` §8) |
 | `sentence_id` | FLEURS only |
 | `rec_condition` | VietMed only: Tel, Consultation, News… |
 
@@ -298,7 +298,8 @@ table = wer_table(score(predictions, plan, clean))   # dataset × noise × SNR, 
 ```
 
 WER and CER are in percent, corpus-level, after the same normalization on both sides.
-Bootstrap intervals and comparisons are in `evaluation.md`.
+Bootstrap intervals, comparisons and failed utterances (looping, truncated, wrong
+language) are in `evaluation.md`.
 
 ## 5. Rules
 

@@ -1,6 +1,7 @@
 """Scoring of ASR outputs: WER / CER, summary tables, bootstrap intervals. See docs/evaluation.md."""
 
 from .bootstrap import bootstrap_ci, compare
+from .failures import FAILURE_KINDS, failure_summary, flag_failures, has_repeated_phrase
 from .metrics import char_counts, edit_counts, error_rate, word_counts
 from .predictions import PredictionWriter
 from .scoring import (
@@ -13,6 +14,7 @@ from .scoring import (
 )
 
 __all__ = [
+    "FAILURE_KINDS",
     "PREDICTION_COLUMNS",
     "PredictionWriter",
     "bootstrap_ci",
@@ -20,6 +22,9 @@ __all__ = [
     "compare",
     "edit_counts",
     "error_rate",
+    "failure_summary",
+    "flag_failures",
+    "has_repeated_phrase",
     "load_predictions",
     "missing_predictions",
     "score",

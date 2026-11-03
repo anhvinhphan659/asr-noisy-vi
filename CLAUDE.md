@@ -10,12 +10,13 @@ The repo has three packages; experiment notebooks call into them:
 |---|---|---|
 | `core/` | Audio operations: convert, mix, measure | `docs/contract.md` |
 | `dataprep/` | Datasets, noise pools, mixing plans, noisy sets, training schedule | `docs/dataprep.md` |
-| `evaluation/` | WER / CER from model outputs, summary tables, bootstrap | `docs/evaluation.md` |
+| `evaluation/` | WER / CER from model outputs, summary tables, bootstrap, failed utterances | `docs/evaluation.md` |
 
 ## Working rules
 
 - **Do nothing that was not asked for.** Do not edit code, create files, commit or push unless the user explicitly asks. While the user is discussing, only answer and propose.
 - **Everything in the repo is written in English**: code, comments, docstrings, docs, commit messages. Chat with the user can be in Vietnamese.
+  Exception: experiment results and their analysis in `docs/results/` are written in Vietnamese, so the whole team can read them.
 - `docs/contract.md` is the source of truth for the core. To change a function's behavior: agree with the user → update the contract → update code and tests.
 - `docs/dataprep.md` and `docs/evaluation.md` describe the other two packages; keep them in sync with the code.
 - Keep the core small: add a function only if it is an audio operation. Shared experiment logic goes in `dataprep` or `evaluation`; model-specific code stays in notebooks.
@@ -75,6 +76,7 @@ The repo has three packages; experiment notebooks call into them:
 | `evaluation/metrics.py` | Edit counts, error rate | `tests/test_evaluation_metrics.py` |
 | `evaluation/predictions.py` | Prediction writer with resume | `tests/test_evaluation_predictions.py` |
 | `evaluation/scoring.py`, `evaluation/bootstrap.py` | Scoring, tables, bootstrap | `tests/test_evaluation_scoring.py` |
+| `evaluation/failures.py` | Failed utterances (looping, truncated, wrong language) | `tests/test_evaluation_failures.py` |
 
 `scripts/package_code.py` bundles the code for Kaggle (`tests/test_scripts_package_code.py`).
 
